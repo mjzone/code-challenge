@@ -1,0 +1,60 @@
+service: notes-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+package:
+  individually: true
+  patterns:
+    - '!./**'
+    - node_modules/**
+    - functions/lib/helper.js
+
+functions:
+  createNote:
+    handler: functions/createNote.handler
+    events:
+      - http:
+          path: notes/create
+          method: post
+    package:
+      patterns:
+        - functions/createNote.js
+
+  updateNote:
+    handler: functions/updateNote.handler
+    events:
+      - http:
+          path: notes/update
+          method: put
+    package:
+      patterns:
+        - functions/updateNote.js
+
+  getNote:
+    handler: functions/getNote.handler
+    events:
+      - http:
+          path: notes/get
+          method: get
+    package:
+      patterns:
+        - functions/getNote.js
+
+  deleteNote:
+    handler: functions/deleteNote.handler
+    events:
+      - http:
+          path: notes/delete
+          method: delete
+    package:
+      patterns:
+        - functions/deleteNote.js
+
+resources:
+ Resources:
+   ${file(resources.yml)}
