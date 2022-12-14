@@ -6,6 +6,11 @@ NotesTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
-    KeySchema: 
+    KeySchema:
       - AttributeName: id
         KeyType: HASH
+    Tags:
+      - Key: Environment
+        Value: ${self:custom.stage}
+      - Key: Name
+        Value: notes-table

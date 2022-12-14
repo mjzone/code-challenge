@@ -1,36 +1,54 @@
 service: notes-api
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
+  environment:
+    STAGE: ${self:custom.stage}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    NOTES_TABLE: !Ref NotesTable
 
 package:
   individually: true
   patterns:
-    - '!./**'
-    - node_modules/**
+    - "!./**"
     - functions/lib/helper.js
+
+plugins:
+  - serverless-iam-roles-per-function
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
 
 functions:
   createNote:
     handler: functions/createNote.handler
     events:
       - http:
-          path: notes/create
+          path: notes
           method: post
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:PutItem
+        Resource: !GetAtt NotesTable.Arn
     package:
       patterns:
+        - node_modules/**
         - functions/createNote.js
 
   updateNote:
     handler: functions/updateNote.handler
     events:
       - http:
-          path: notes/update
+          path: notes/{id}
           method: put
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: !GetAtt NotesTable.Arn
     package:
       patterns:
         - functions/updateNote.js
@@ -39,8 +57,12 @@ functions:
     handler: functions/getNote.handler
     events:
       - http:
-          path: notes/get
+          path: notes/{id}
           method: get
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:GetItem
+        Resource: !GetAtt NotesTable.Arn
     package:
       patterns:
         - functions/getNote.js
@@ -49,12 +71,29 @@ functions:
     handler: functions/deleteNote.handler
     events:
       - http:
-          path: notes/delete
+          path: notes/{id}
           method: delete
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:DeleteItem
+        Resource: !GetAtt NotesTable.Arn
     package:
       patterns:
         - functions/deleteNote.js
 
+  getAllNotes:
+    handler: functions/getAllNotes.handler
+    events:
+      - http:
+          path: notes
+          method: get
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:Scan
+        Resource: !GetAtt NotesTable.Arn
+    package:
+      patterns:
+        - functions/getAllNotes.js
+
 resources:
- Resources:
-   ${file(resources.yml)}
+  Resources: ${file(resources.yml)}
