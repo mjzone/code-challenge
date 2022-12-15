@@ -1,4 +1,4 @@
-service: notes-api
+service: sg-notes
 frameworkVersion: "3"
 
 provider:
