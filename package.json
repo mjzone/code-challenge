@@ -1,0 +1,21 @@
+{
+  "name": "code-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "install-notes-packages": "cd apis/notes && npm ci"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjzone/code-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjzone/code-challenge/issues"
+  },
+  "homepage": "https://github.com/mjzone/code-challenge#readme"
+}
