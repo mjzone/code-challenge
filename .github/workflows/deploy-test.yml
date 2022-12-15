@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: test deployment
+    name: QA Deployment
     runs-on: ubuntu-latest
     environment:
       name: Test
@@ -20,11 +20,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - name: serverless deploy
+    - run: npm run install-notes-packages
+    - name: Serverless Deploy
       uses: serverless/github-action@v3.1
       with:
-        args: -c "cd ./api/notes && serverless deploy --stage test"
+        args: -c "cd ./apis/notes && serverless deploy --stage test"
         entrypoint: /bin/sh
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
