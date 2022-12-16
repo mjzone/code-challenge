@@ -30,6 +30,9 @@ functions:
       - http:
           path: notes
           method: post
+          request:
+            schemas:
+              application/json: ${file(schemas/Note.json)}
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:PutItem
@@ -45,6 +48,9 @@ functions:
       - http:
           path: notes/{id}
           method: put
+          request:
+            schemas:
+              application/json: ${file(schemas/Note.json)}
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:UpdateItem
