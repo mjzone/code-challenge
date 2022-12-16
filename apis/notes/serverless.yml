@@ -17,11 +17,10 @@ package:
     - "!./**"
     - functions/lib/helper.js
 
-plugins:
-  - serverless-iam-roles-per-function
-
 custom:
   stage: ${opt:stage, self:provider.stage}
+  export-env:
+    overwrite: true
 
 functions:
   createNote:
@@ -103,3 +102,7 @@ functions:
 
 resources:
   Resources: ${file(resources.yml)}
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-export-env

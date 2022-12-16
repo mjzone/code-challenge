@@ -1,13 +1,13 @@
 "use strict";
 const helper = require("./lib/helper");
 const dynamodb = require("aws-sdk/clients/dynamodb");
-const documentClient = new dynamodb.DocumentClient({ region: process.env.AWS_REGION });
+const documentClient = new dynamodb.DocumentClient();
 const { NOTES_TABLE } = process.env;
 
 module.exports.handler = async (event) => {
   let { id } = event.pathParameters;
-  let data = JSON.parse(event.body);
-  if (!id || !data.title.length || !data.body.length) {
+  let note = JSON.parse(event.body);
+  if (!id || !note.title.length || !note.body.length) {
     return helper.respond(400, "Id, title and body must NOT be empty");
   }
   try {
@@ -20,14 +20,15 @@ module.exports.handler = async (event) => {
         "#body": "body",
       },
       ExpressionAttributeValues: {
-        ":title": data.title,
-        ":body": data.body,
+        ":title": note.title,
+        ":body": note.body,
       },
       ConditionExpression: "attribute_exists(id)",
     };
     await documentClient.update(params).promise();
-    return helper.respond(200, `Note with id ${id} is updated!`);
+    return helper.respond(200, note);
   } catch (err) {
+    console.log(err);
     return helper.respond(500, err.message);
   }
 };
