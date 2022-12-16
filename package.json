@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "install-notes-packages": "cd apis/notes && npm ci",
-    "test":"cd apis/notes && npm run test:int" 
+    "prod-test":"cd apis/notes && npm run prod-test:int",
+    "qa-test":"cd apis/notes && npm run qa-test:int" 
   },
   "repository": {
     "type": "git",

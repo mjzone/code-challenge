@@ -6,8 +6,9 @@
   "scripts": {
     "sls": "sls",
     "export-env": "sls export-env --all",
-    "test:int": "npm run export-env -- -s prod && jest",
-    "test:local": "npm run export-env && jest"
+    "qa-test:int": "npm run export-env -- -s test && jest",
+    "prod-test:int": "npm run export-env -- -s prod && jest",
+    "local-test": "npm run export-env && jest"
   },
   "keywords": [],
   "author": "",
