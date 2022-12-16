@@ -5,7 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "install-notes-packages": "cd apis/notes && npm ci"
+    "install-notes-packages": "cd apis/notes && npm ci",
+    "test":"cd apis/notes && npm run test:int" 
   },
   "repository": {
     "type": "git",

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "sls": "sls",
-    "dot-env": "sls export-env --all",
-    "test": "jest"
+    "export-env": "sls export-env --all",
+    "test:int": "npm run export-env -- -s prod && jest",
+    "test:local": "npm run export-env && jest"
   },
   "keywords": [],
   "author": "",

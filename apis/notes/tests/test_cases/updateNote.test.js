@@ -18,11 +18,7 @@ describe('Given a note is created', () => {
         const title = chance.sentence({ words: 3 });
         const body = chance.paragraph({ sentences: 2 });
         const res = await when.we_invoke_update_note(id, { title, body });
-
+        
         expect(res.statusCode).toEqual(200);
-        // expect(res.body).toHaveProperty('title');
-        // expect(res.body).toHaveProperty('body');
-        // expect(res.body.title).toEqual(title);
-        // expect(res.body.body).toEqual(body);
     })
 });
